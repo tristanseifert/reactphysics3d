@@ -942,3 +942,35 @@ void RigidBody::setProfiler(Profiler* profiler) {
 }
 
 #endif
+
+/**
+ * Sets the linear velocity factors.
+ *
+ * @param linearVelocityFactor Linear velocity factors of the body
+ */
+void RigidBody::setLinearVelocityFactor(const Vector3& linearVelocityFactor) {
+    mWorld.mRigidBodyComponents.setLinearVelocityFactor(mEntity, linearVelocityFactor);
+}
+
+/**
+ * Returns the linear velocity factor
+ */
+Vector3 RigidBody::getLinearVelocityFactor() const {
+    return mWorld.mRigidBodyComponents.getLinearVelocityFactor(mEntity);
+}
+
+/**
+ * Sets the angular velocity factors.
+ * @param angularVelocity The angular velocity factors of the body
+ */
+void RigidBody::setAngularVelocityFactor(const Vector3& angularVelocityFactor) {
+    mWorld.mRigidBodyComponents.setAngularVelocityFactor(mEntity, angularVelocityFactor);
+}
+
+/**
+ * Returns the angular velocity factor
+ */
+Vector3 RigidBody::getAngularVelocityFactor() const {
+    return mWorld.mRigidBodyComponents.getAngularVelocityFactor(mEntity);
+}
+

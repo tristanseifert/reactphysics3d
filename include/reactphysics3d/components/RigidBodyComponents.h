@@ -135,6 +135,13 @@ class RigidBodyComponents : public Components {
 
         /// Array of center of mass of each component (in world-space coordinates)
         Vector3* mCentersOfMassWorld;
+    
+    /// Angular velocity factor
+    Vector3* mAngularVelocityFactor;
+
+    /// Linear velocity factor
+    Vector3* mLinearVelocityFactor;
+
 
         /// True if the gravity needs to be applied to this component
         bool* mIsGravityEnabled;
@@ -144,7 +151,6 @@ class RigidBodyComponents : public Components {
 
         /// For each body, the list of joints entities the body is part of
         List<Entity>* mJoints;
-
         // -------------------- Methods -------------------- //
 
         /// Allocate memory for a given number of components
@@ -326,6 +332,20 @@ class RigidBodyComponents : public Components {
 
         /// Set the world center of mass of an entity
         void setCenterOfMassWorld(Entity bodyEntity, const Vector3& centerOfMassWorld);
+    
+    
+    
+    /// Get the linear velocity factor of an entity
+    const Vector3& getLinearVelocityFactor(Entity bodyEntity) const;
+
+    /// Get the angular velocity factor of an entity
+    const Vector3& getAngularVelocityFactor(Entity bodyEntity) const;
+    
+    /// Set the linear velocity factor of an entity
+    void setLinearVelocityFactor(Entity bodyEntity, const Vector3& linearVelocityFactor);
+
+    /// Set the angular velocity factor of an entity
+    void setAngularVelocityFactor(Entity bodyEntity, const Vector3& angularVelocityFactor);
 
         /// Set the value to know if the gravity is enabled for this entity
         void setIsGravityEnabled(Entity bodyEntity, bool isGravityEnabled);
@@ -716,6 +736,36 @@ inline void RigidBodyComponents::setCenterOfMassWorld(Entity bodyEntity, const V
 
    mCentersOfMassWorld[mMapEntityToComponentIndex[bodyEntity]] = centerOfMassWorld;
 }
+
+/// Set the linear velocity factor of an entity
+inline void RigidBodyComponents::setLinearVelocityFactor(Entity bodyEntity, const Vector3& linearVelocityFactor) {
+
+   assert(mMapEntityToComponentIndex.containsKey(bodyEntity));
+
+   mLinearVelocityFactor[mMapEntityToComponentIndex[bodyEntity]] = linearVelocityFactor;
+}
+
+/// Set the angular velocity factor of an entity
+inline void RigidBodyComponents::setAngularVelocityFactor(Entity bodyEntity, const Vector3& angularVelocityFactor) {
+
+   assert(mMapEntityToComponentIndex.containsKey(bodyEntity));
+
+   mAngularVelocityFactor[mMapEntityToComponentIndex[bodyEntity]] = angularVelocityFactor;
+}
+
+/// Get the linear velocity factor of an entity
+inline const Vector3& RigidBodyComponents::getLinearVelocityFactor(Entity bodyEntity) const {
+   assert(mMapEntityToComponentIndex.containsKey(bodyEntity));
+
+   return mLinearVelocityFactor[mMapEntityToComponentIndex[bodyEntity]];
+}
+
+/// Get the angular velocity factor of an entity;
+inline const Vector3& RigidBodyComponents::getAngularVelocityFactor(Entity bodyEntity) const {
+    assert(mMapEntityToComponentIndex.containsKey(bodyEntity));
+
+    return mAngularVelocityFactor[mMapEntityToComponentIndex[bodyEntity]];
+ }
 
 // Return true if gravity is enabled for this entity
 inline bool RigidBodyComponents::getIsGravityEnabled(Entity bodyEntity) const {

@@ -183,12 +183,30 @@ class RigidBody : public CollisionBody {
         /// Remove a collider from the body
         virtual void removeCollider(Collider* collider) override;
 
+        /// Return the linear velocity factor
+        Vector3 getLinearVelocityFactor() const;
+        /// Set the linear velocity factor of the body.
+        void setLinearVelocityFactor(const Vector3& linearVelocityFactor);
+
+        /// Return the angular velocity factor
+        Vector3 getAngularVelocityFactor() const;
+        /// Set the angular velocity factor.
+        void setAngularVelocityFactor(const Vector3& angularVelocityFactor);
+
 #ifdef IS_RP3D_PROFILING_ENABLED
 
 		/// Set the profiler
 		void setProfiler(Profiler* profiler) override;
 
 #endif
+
+    private:
+        /// Angular velocity factor
+        Vector3 mAngularVelocityFactor;
+
+        /// Linear velocity factor
+        Vector3 mLinearVelocityFactor;
+
 
         // -------------------- Friendship -------------------- //
 

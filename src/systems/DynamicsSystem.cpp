@@ -58,6 +58,12 @@ void DynamicsSystem::integrateRigidBodiesPositions(decimal timeStep, bool isSpli
         newLinVelocity += isSplitImpulseFactor * mRigidBodyComponents.mSplitLinearVelocities[i];
         newAngVelocity += isSplitImpulseFactor * mRigidBodyComponents.mSplitAngularVelocities[i];
 
+        // multiply by the factors
+        for(uint j=0; j<3; j++){
+            newLinVelocity[j] *= mRigidBodyComponents.mLinearVelocityFactor[i][j];
+            newAngVelocity[j] *= mRigidBodyComponents.mAngularVelocityFactor[i][j];
+        }
+
         // Get current position and orientation of the body
         const Vector3& currentPosition = mRigidBodyComponents.mCentersOfMassWorld[i];
         const Quaternion& currentOrientation = mTransformComponents.getTransform(mRigidBodyComponents.mBodiesEntities[i]).getOrientation();
@@ -170,6 +176,13 @@ void DynamicsSystem::integrateRigidBodiesVelocities(decimal timeStep) {
         const decimal angularDamping = std::pow(decimal(1.0) - angDampingFactor, timeStep);
         mRigidBodyComponents.mConstrainedLinearVelocities[i] = mRigidBodyComponents.mConstrainedLinearVelocities[i] * linearDamping;
         mRigidBodyComponents.mConstrainedAngularVelocities[i] = mRigidBodyComponents.mConstrainedAngularVelocities[i] * angularDamping;
+    
+    
+        for(uint j = 0; j < 3; j++) {
+            mRigidBodyComponents.mConstrainedLinearVelocities[i][j] *= mRigidBodyComponents.mLinearVelocityFactor[i][j];
+            mRigidBodyComponents.mConstrainedAngularVelocities[i][j] *= mRigidBodyComponents.mAngularVelocityFactor[i][j];
+        }
+        
     }
 }
 
